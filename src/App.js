@@ -110,7 +110,7 @@ function App() {
           <div>
             <img
               className="card-avatar"
-              src="https://github.com/eby8zevin.png"
+              src="https://github.com/eby-dev.png"
               alt="avatar"
             />
           </div>
@@ -207,7 +207,7 @@ function App() {
             <a
               target="_blank" 
               rel="noreferrer" 
-              href="https://eby8zevin.github.io" 
+              href="https://eby-dev.github.io" 
             >
               {/* <ToastContainer /> */}
               <div className="btn-action">
@@ -219,7 +219,7 @@ function App() {
             <a
               target="_blank"
               rel="noreferrer"
-              href="https://github.com/eby8zevin"
+              href="https://github.com/eby-dev"
             >
               <div className="btn-action">
                 <BsGithub className="icon" />
@@ -315,7 +315,7 @@ function App() {
               </div>
             </a>
 
-            <a target="_blank" rel="noreferrer" href="https://dev.to/eby8zevin">
+            <a target="_blank" rel="noreferrer" href="https://dev.to/eby_dev">
               <div className="btn-action">
                 <FaDev className="icon" />
                 <span>Dev</span>
@@ -413,7 +413,7 @@ function App() {
             <a
               target="_blank"
               rel="noreferrer"
-              href="https://github.com/eby8zevin/connect-with-eby"
+              href="https://github.com/eby-dev/connect-with-eby"
             >
               <div className="btn-action">
                 <FaReact className="icon" />
