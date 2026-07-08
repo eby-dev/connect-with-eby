@@ -1,43 +1,12 @@
 import "./App.css";
 import ParticlesBg from "particles-bg";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
-import {
-  BsGithub,
-  BsGitlab,
-  BsGooglePlay,
-  BsQrCodeScan,
-  BsYoutube,
-  BsSpotify,
-  BsStackOverflow,
-} from "react-icons/bs";
-import {
-  FaReact,
-  FaLinkedinIn,
-  FaTwitter,
-  FaInstagram,
-  FaFacebookF,
-  FaTiktok,
-  FaBriefcase,
-  FaCode,
-  FaDev,
-  FaCodepen,
-} from "react-icons/fa";
+import { BsGithub, BsGitlab, BsGooglePlay } from "react-icons/bs";
+import { FaLinkedinIn, FaGlobe, FaBriefcase, FaCode } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { ImProfile } from "react-icons/im";
-import {
-  SiWakatime,
-  SiReplit,
-  SiHackerrank,
-  SiLeetcode,
-  SiHackerone,
-  SiBugcrowd,
-  SiGmail,
-} from "react-icons/si";
 import Typist from "react-typist";
 import TextLoop from "react-text-loop";
-//import { ToastContainer, toast, Flip } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const config_cursor = {
@@ -50,20 +19,35 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
   const card = useRef(null);
 
+  function trackClick(linkName) {
+    if (typeof window.gtag === "function") {
+      window.gtag("event", "link_click", { link_name: linkName });
+    }
+  }
+
   function toggle() {
-    setDarkMode(!darkMode);
+    const next = !darkMode;
+    setDarkMode(next);
+    trackClick(next ? "Dark Mode On" : "Dark Mode Off");
   }
 
   const [isAtBottom, setIsAtBottom] = useState(false);
+  const [isScrollable, setIsScrollable] = useState(false);
+
+  useEffect(() => {
+    const el = card.current;
+    if (!el) return;
+    const check = () => {
+      setIsScrollable(el.scrollHeight > el.clientHeight + 1);
+    };
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   function handleScroll() {
     const { scrollTop, scrollHeight, clientHeight } = card.current;
-
-    if (scrollTop + clientHeight === scrollHeight) {
-      setIsAtBottom(true);
-    } else {
-      setIsAtBottom(false);
-    }
+    setIsAtBottom(scrollTop + clientHeight >= scrollHeight - 1);
   }
 
   function handleScrollDown() {
@@ -79,20 +63,6 @@ function App() {
       behavior: "smooth",
     });
   }
-
-  // function comingSoon() {
-  //   toast.info("Coming soon", {
-  //     position: "top-center",
-  //     autoClose: 2000,
-  //     hideProgressBar: false,
-  //     closeOnClick: true,
-  //     pauseOnHover: true,
-  //     draggable: true,
-  //     progress: undefined,
-  //     theme: "light",
-  //     transition: Flip,
-  //   });
-  // }
 
   return (
     <div className="d-flex content-center">
@@ -141,6 +111,7 @@ function App() {
               target="_blank"
               rel="noreferrer"
               href="https://linkedin.com/in/ahmadabuhasan"
+              onClick={() => trackClick("LinkedIn")}
             >
               <div className="btn-social">
                 <FaLinkedinIn />
@@ -149,33 +120,11 @@ function App() {
             <a
               target="_blank"
               rel="noreferrer"
-              href="https://twitter.com/46eby"
+              href="https://ahmadabuhasan.com"
+              onClick={() => trackClick("Personal Website")}
             >
               <div className="btn-social">
-                <FaTwitter />
-              </div>
-            </a>
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://www.instagram.com/jkt48.christy"
-            >
-              <div className="btn-social">
-                <FaInstagram />
-              </div>
-            </a>
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://www.facebook.com/profile.php?id=100001555488554"
-            >
-              <div className="btn-social">
-                <FaFacebookF />
-              </div>
-            </a>
-            <a target="_blank" rel="noreferrer" href="https://www.tiktok.com">
-              <div className="btn-social">
-                <FaTiktok />
+                <FaGlobe />
               </div>
             </a>
           </div>
@@ -196,20 +145,9 @@ function App() {
             <a
               target="_blank"
               rel="noreferrer"
-              href="https://bit.ly/CVAhmadAbuHasan"
+              href="https://eby-dev.github.io"
+              onClick={() => trackClick("Portfolio")}
             >
-              <div className="btn-action">
-                <ImProfile className="icon" />
-                <span>Curriculum Vitae</span>
-              </div>
-            </a>
-
-            <a
-              target="_blank" 
-              rel="noreferrer" 
-              href="https://eby-dev.github.io" 
-            >
-              {/* <ToastContainer /> */}
               <div className="btn-action">
                 <FaBriefcase className="icon" />
                 <span>Portfolio</span>
@@ -220,6 +158,7 @@ function App() {
               target="_blank"
               rel="noreferrer"
               href="https://github.com/eby-dev"
+              onClick={() => trackClick("GitHub")}
             >
               <div className="btn-action">
                 <BsGithub className="icon" />
@@ -231,6 +170,7 @@ function App() {
               target="_blank"
               rel="noreferrer"
               href="https://gitlab.com/ahmadabuhasan"
+              onClick={() => trackClick("GitLab")}
             >
               <div className="btn-action">
                 <BsGitlab className="icon" />
@@ -241,29 +181,8 @@ function App() {
             <a
               target="_blank"
               rel="noreferrer"
-              href="https://play.google.com/store/apps/dev?id=6964311956052920659"
-            >
-              <div className="btn-action">
-                <BsGooglePlay className="icon" />
-                <span>Play Store</span>
-              </div>
-            </a>
-
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://play.google.com/store/apps/details?id=com.ahmadabuhasan.qrbarcode"
-            >
-              <div className="btn-action">
-                <BsQrCodeScan className="icon" />
-                <span>App - QR Barcode</span>
-              </div>
-            </a>
-
-            <a
-              target="_blank"
-              rel="noreferrer"
               href="https://www.dicoding.com/users/ahmadabuhasan"
+              onClick={() => trackClick("Dicoding")}
             >
               <div className="btn-action">
                 <FaCode className="icon" />
@@ -274,163 +193,43 @@ function App() {
             <a
               target="_blank"
               rel="noreferrer"
+              href="https://play.google.com/store/apps/dev?id=6964311956052920659"
+              onClick={() => trackClick("Play Store")}
+            >
+              <div className="btn-action">
+                <BsGooglePlay className="icon" />
+                <span>Play Store</span>
+              </div>
+            </a>
+
+            <a
+              target="_blank"
+              rel="noreferrer"
               href="https://g.dev/ahmadabuhasan"
+              onClick={() => trackClick("Google Developer")}
             >
               <div className="btn-action">
                 <FcGoogle className="icon" />
                 <span>Google Developer</span>
               </div>
             </a>
-
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://wakatime.com/@bbcd646f-1daf-4865-a20e-46d4c803e6f8"
-            >
-              <div className="btn-action">
-                <SiWakatime className="icon" />
-                <span>WakaTime</span>
-              </div>
-            </a>
-
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://www.youtube.com/@ahmadabuhasan118"
-            >
-              <div className="btn-action">
-                <BsYoutube className="icon" />
-                <span>YouTube</span>
-              </div>
-            </a>
-
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://open.spotify.com/user/gr3y7pr12w9ol2dy2ccdb10e7"
-            >
-              <div className="btn-action">
-                <BsSpotify className="icon" />
-                <span>Spotify</span>
-              </div>
-            </a>
-
-            <a target="_blank" rel="noreferrer" href="https://dev.to/eby_dev">
-              <div className="btn-action">
-                <FaDev className="icon" />
-                <span>Dev</span>
-              </div>
-            </a>
-
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://stackoverflow.com/users/15691794"
-            >
-              <div className="btn-action">
-                <BsStackOverflow className="icon" />
-                <span>Stack Overflow</span>
-              </div>
-            </a>
-
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://replit.com/@eby8zevin"
-            >
-              <div className="btn-action">
-                <SiReplit className="icon" />
-                <span>Replit</span>
-              </div>
-            </a>
-
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://codepen.io/eby8zevin"
-            >
-              <div className="btn-action">
-                <FaCodepen className="icon" />
-                <span>CodePen</span>
-              </div>
-            </a>
-
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://www.hackerrank.com/ahmadabuhasan"
-            >
-              <div className="btn-action">
-                <SiHackerrank className="icon" />
-                <span>HackerRank</span>
-              </div>
-            </a>
-
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://leetcode.com/eby8zevin"
-            >
-              <div className="btn-action">
-                <SiLeetcode className="icon" />
-                <span>LeetCode</span>
-              </div>
-            </a>
-
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://hackerone.com/j4ncuk3rs"
-            >
-              <div className="btn-action">
-                <SiHackerone className="icon" />
-                <span>HackerOne</span>
-              </div>
-            </a>
-
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://bugcrowd.com/j4ncuk3rs"
-            >
-              <div className="btn-action">
-                <SiBugcrowd className="icon" />
-                <span>Bugcrowd</span>
-              </div>
-            </a>
-
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="mailto:ahmadabuhasan@mhs.stmik-yadika.ac.id"
-            >
-              <div className="btn-action">
-                <SiGmail className="icon" />
-                <span>Mail</span>
-              </div>
-            </a>
-
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href="https://github.com/eby-dev/connect-with-eby"
-            >
-              <div className="btn-action">
-                <FaReact className="icon" />
-                <span>Source code this bio.link</span>
-              </div>
-            </a>
           </div>
         </div>
-        <div
-          className="scroll-info"
-          onClick={isAtBottom ? handleScrollTop : handleScrollDown}
-        >
-          <span className="scroll-text">
-            {isAtBottom ? "Scroll Top" : "Scroll Down"}
-          </span>
-          {isAtBottom ? <AiOutlineUp size={12} /> : <AiOutlineDown size={12} />}
-        </div>
+        {isScrollable && (
+          <div
+            className="scroll-info"
+            onClick={isAtBottom ? handleScrollTop : handleScrollDown}
+          >
+            <span className="scroll-text">
+              {isAtBottom ? "Scroll Top" : "Scroll Down"}
+            </span>
+            {isAtBottom ? (
+              <AiOutlineUp size={12} />
+            ) : (
+              <AiOutlineDown size={12} />
+            )}
+          </div>
+        )}
       </div>
 
       <ParticlesBg type="random" bg={true} />
